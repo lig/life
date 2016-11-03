@@ -3,7 +3,7 @@ import random
 from pyglet import gl, graphics, clock
 import numpy
 
-from life import DENSITY
+from life import DENSITY, CELL_SIZE
 
 
 class Creator:
@@ -11,8 +11,8 @@ class Creator:
     def __init__(self, window):
         self._window = window
         self._window.push_handlers(self)
-        self.width = window.width // 4
-        self.height = window.height // 4
+        self.width = window.width // CELL_SIZE
+        self.height = window.height // CELL_SIZE
         self.field = numpy.empty(
             shape=[self.width, self.height],
             dtype=int)
@@ -26,15 +26,13 @@ class Creator:
         for y in range(self.height):
             for x in range(self.width):
                 if self.field[x, y]:
-                    x0 = x * 4
-                    y0 = y * 4
+                    x0 = x * CELL_SIZE
+                    y0 = y * CELL_SIZE
+                    x1 = x0 + CELL_SIZE - 1
+                    y1 = y0 + CELL_SIZE - 1
                     graphics.draw(
                         4, gl.GL_QUADS,
-                        ('v2i', (
-                            x0, y0,
-                            x0 + 4, y0,
-                            x0 + 4, y0 + 4,
-                            x0, y0 + 3)))
+                        ('v2i', (x0, y0, x1, y0, x1, y1, x0, y1)))
         clock.schedule_once(self._cycle, 0)
 
     def _cycle(self, dt):
