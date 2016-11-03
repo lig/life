@@ -16,3 +16,7 @@ Adjust settings in the `./life/__init__.py`.
 ```
 python -m life
 ```
+
+## Screeshots
+
+![life screenshot](./life_screenshot.png)
