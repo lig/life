@@ -1,10 +1,11 @@
+from collections import deque
 import random
 
 from pyglet import gl, graphics, clock
 import numpy
 
 from life import DENSITY, CELL_SIZE
-from collections import deque
+from life.rules import BORN, SURVIVE
 
 
 class Creator:
@@ -43,14 +44,13 @@ class Creator:
             dtype='int8')
         for y in range(1, self.height):
             for x in range(1, self.width):
-                mass = sum(self.field[x - 1:x + 2:2, y - 1:y + 2:2].flatten())
-                if self.field[x, y] and mass not in (2, 3,):
-                    new_field[x, y] = 0
-                    self._draw_queue.append((x, y, 0))
-                elif not self.field[x, y] and mass == 3:
-                    new_field[x, y] = 1
-                    self._draw_queue.append((x, y, 1))
-                else:
-                    new_field[x, y] = self.field[x, y]
+                mass = sum(sum(self.field[x - 1:x + 2:2, y - 1:y + 2:2]))
+                value = self.field[x, y]
+                new_value = value ^ int(
+                    not value and mass in BORN or
+                    value and mass not in SURVIVE)
+                new_field[x, y] = new_value
+                if new_value ^ value:
+                    self._draw_queue.append((x, y, new_value))
         self.field = new_field
         clock.schedule_once(self._cycle, 0)
