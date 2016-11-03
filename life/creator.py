@@ -18,8 +18,8 @@ class Creator:
             shape=[self.width, self.height],
             dtype=int)
         self._draw_queue = deque()
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(1, self.height):
+            for x in range(1, self.width):
                 value = int(random.random() < DENSITY)
                 self.field[x, y] = value
                 self._draw_queue.append((x, y, value))
@@ -41,8 +41,8 @@ class Creator:
         new_field = numpy.empty(
             shape=[self.width, self.height],
             dtype='int8')
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(1, self.height):
+            for x in range(1, self.width):
                 mass = sum(self.field[x - 1:x + 2:2, y - 1:y + 2:2].flatten())
                 if self.field[x, y] and mass not in (2, 3,):
                     new_field[x, y] = 0
