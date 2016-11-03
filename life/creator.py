@@ -19,8 +19,8 @@ class Creator:
             shape=[self.width, self.height],
             dtype=int)
         self._draw_queue = deque()
-        for y in range(1, self.height):
-            for x in range(1, self.width):
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
                 value = int(random.random() < DENSITY)
                 self.field[x, y] = value
                 self._draw_queue.append((x, y, value))
@@ -42,8 +42,8 @@ class Creator:
         new_field = numpy.empty(
             shape=[self.width, self.height],
             dtype='int8')
-        for y in range(1, self.height):
-            for x in range(1, self.width):
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
                 mass = sum(sum(self.field[x - 1:x + 2:2, y - 1:y + 2:2]))
                 value = self.field[x, y]
                 new_value = value ^ int(
