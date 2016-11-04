@@ -49,7 +49,7 @@ class Creator:
                 if new_value ^ value:
                     self._draw_queue.append((x, y, new_value))
         self.field = new_field
-        clock.schedule_once(self._cycle, 0)
+        clock.schedule_once(self._cycle, 0.1)
 
     def _get_empty_field(self):
         return numpy.zeros(
