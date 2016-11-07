@@ -46,8 +46,7 @@ class Creator:
                     ~ value & (mass in BORN) |
                     value & ~ (mass in SURVIVE))
                 new_field[x, y] = new_value
-                if new_value ^ value:
-                    self._draw_queue.append((x, y, new_value))
+                self._draw_queue.append((x, y, new_value))
         self.field = new_field
         clock.schedule_once(self._cycle, 0.1)
 
