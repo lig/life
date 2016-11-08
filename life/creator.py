@@ -13,7 +13,7 @@ class Creator:
         self.height = height
         self.field = (
             numpy.random.rand(self.width, self.height) < DENSITY
-        ).astype('int8')
+        ).astype('uint8')
 
     @property
     def flat(self):
@@ -30,7 +30,7 @@ class Creator:
         new_field = numpy.fromfunction(
             numpy.vectorize(self._new_value),
             (self.width, self.height,),
-            dtype='int8')
+            dtype='uint8')
         self.field = new_field
         self._cycle()
 
