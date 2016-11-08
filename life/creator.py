@@ -46,7 +46,7 @@ class Creator:
             return 0
 
         value = self.field[x, y]
-        mass = sum(sum(self.field[x - 1:x + 2, y - 1:y + 2])) - value
+        mass = self.field[x - 1:x + 2, y - 1:y + 2].sum() - value
         return value ^ (
             ~ value & (mass in BORN) |
             value & ~ (mass in SURVIVE))
