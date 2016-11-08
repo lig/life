@@ -9,11 +9,15 @@ class Creator:
     is_started = False
 
     def __init__(self, width=WIDTH, height=HEIGHT):
+        if max(width, height) > 255:
+            self._dtype = numpy.dtype('uint16')
+        else:
+            self._dtype = numpy.dtype('uint8')
         self.width = width
         self.height = height
         self.field = (
             numpy.random.rand(self.width, self.height) < DENSITY
-        ).astype('uint8')
+        ).astype(self._dtype)
 
     @property
     def flat(self):
@@ -30,7 +34,7 @@ class Creator:
         new_field = numpy.fromfunction(
             numpy.vectorize(self._new_value),
             (self.width, self.height,),
-            dtype='uint8')
+            dtype=self._dtype)
         self.field = new_field
         self._cycle()
 
