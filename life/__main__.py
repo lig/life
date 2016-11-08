@@ -20,7 +20,9 @@ else:
     window = pyglet.window.Window(width=field.width, height=field.height)
 
 if DISPLAY_FPS:
-    fps_display = pyglet.clock.ClockDisplay()
+    fps_display = pyglet.window.FPSDisplay(window)
+    fps_display.update_period = 1.
+
 else:
     fps_display = None
 
