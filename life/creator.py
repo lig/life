@@ -40,10 +40,10 @@ class Creator:
 
     def _new_value(self, x, y):
         if x in (0, self.width - 1,):
-            return 0
+            x = abs(x + 2 - self.width)
 
         if y in (0, self.height - 1,):
-            return 0
+            y = abs(y + 2 - self.height)
 
         value = self.field[x, y]
         mass = self.field[x - 1:x + 2, y - 1:y + 2].sum() - value
