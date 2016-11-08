@@ -9,11 +9,11 @@ DEAD_COLOR = (0, 0, 0)
 
 class Grid(dict):
 
-    def __new__(cls, width, height, cell_size):
+    def __new__(cls, width, height, cell_size, dx=0, dy=0):
 
         def cell_data(x, y):
-            x0 = x * cell_size
-            y0 = y * cell_size
+            x0 = x * cell_size + dx
+            y0 = y * cell_size + dy
             x1 = x0 + cell_size - 1
             y1 = y0 + cell_size - 1
             return x0, y0, x1, y0, x1, y1, x0, y1
@@ -27,10 +27,10 @@ class Grid(dict):
 
 class Field(event.EventDispatcher):
 
-    def __init__(self, field_creator, cell_size=CELL_SIZE):
+    def __init__(self, field_creator, cell_size=CELL_SIZE, dx=0, dy=0):
         self.width = field_creator.width * cell_size
         self.height = field_creator.height * cell_size
-        self._grid = Grid(self.width, self.height, cell_size)
+        self._grid = Grid(self.width, self.height, cell_size, dx, dy)
         self._creator = field_creator
         self._cell_size = cell_size
 
