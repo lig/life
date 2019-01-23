@@ -58,4 +58,7 @@ class Creator:
         f = self.field.flat
         while True:
             c = f.coords
-            yield c[0], c[1], next(f)
+            next_f = next(f, None)
+            if next_f is None:
+                return
+            yield c[0], c[1], next_f
