@@ -1,7 +1,7 @@
-from pyglet import clock
 import numpy
+from pyglet import clock
 
-from life import DENSITY, WIDTH, HEIGHT, CYCLE_SLEEP
+from life import CYCLE_SLEEP, DENSITY, HEIGHT, WIDTH
 from life.rules import BORN, SURVIVE
 
 
@@ -15,9 +15,9 @@ class Creator:
             self._dtype = numpy.dtype('uint8')
         self.width = width
         self.height = height
-        self.field = (
-            numpy.random.rand(self.width, self.height) < DENSITY
-        ).astype(self._dtype)
+        self.field = (numpy.random.rand(self.width, self.height) < DENSITY).astype(
+            self._dtype
+        )
 
     @property
     def flat(self):
@@ -33,23 +33,22 @@ class Creator:
     def update(self, dt):
         new_field = numpy.fromfunction(
             numpy.vectorize(self._new_value),
-            (self.width, self.height,),
-            dtype=self._dtype)
+            (self.width, self.height),
+            dtype=self._dtype,
+        )
         self.field = new_field
         self._cycle()
 
     def _new_value(self, x, y):
-        if x in (0, self.width - 1,):
+        if x in (0, self.width - 1):
             x = abs(x + 2 - self.width)
 
-        if y in (0, self.height - 1,):
+        if y in (0, self.height - 1):
             y = abs(y + 2 - self.height)
 
         value = self.field[x, y]
-        mass = self.field[x - 1:x + 2, y - 1:y + 2].sum() - value
-        return value ^ (
-            ~ value & (mass in BORN) |
-            value & ~ (mass in SURVIVE))
+        mass = self.field[x - 1 : x + 2, y - 1 : y + 2].sum() - value
+        return value ^ (~value & (mass in BORN) | value & ~(mass in SURVIVE))
 
     def _cycle(self):
         if self.is_started:
